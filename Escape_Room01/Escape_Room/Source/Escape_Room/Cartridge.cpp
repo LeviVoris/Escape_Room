@@ -1,28 +1,28 @@
 // fill out your copyright notice in the description page of project settings.
 
 
-#include "cartridge.h"
-#include "terminal.h"
-#include "gameframework/actor.h"
+#include "Cartridge.h"
+#include "Terminal.h"
+#include "Gameframework/Actor.h"
 
-void ucartridge::beginplay()
+void UCartridge::BeginPlay()
 {
-	super::beginplay();
-	terminal = getowner()->findcomponentbyclass<uterminal>();
-	checkf(terminal, text("[%s]: no terminal found"), *getname())
+	Super::BeginPlay();
+	Terminal = GetOwner()->FindComponentByClass<UTerminal>();
+	checkf(Terminal, TEXT"[%s]: No Terminal Found"), *GetName())
 }
 
-void ucartridge::printline(const fstring& line) const
+void UCartridge::PrintLine(const FString& Line) const
 {
-	terminal->printline(line);
+	Terminal->PrintLine(Line);
 }
 
-void ucartridge::printline(const tchar* line) const
+void UCartridge::PrintLine(const TCHAR* Line) const
 {
-	terminal->printline(line);
+	Terminal->PrintLine(Line);
 }
 
-void ucartridge::clearscreen() const
+void UCartridge::ClearScreen() const
 {
-	terminal->clearsceen();
+	Terminal->ClearSceen();
 }

@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Terminal.generated.h"
 #include "GameFramework\Actor.h"
+#include "Terminal.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTextUpdateSignature, FString, Text);
 
@@ -30,7 +30,7 @@ public:
 		void DeactiveTerminal() const;
 
 	void PrintLine(const FString& Line);
-	void ClearScreen;
+	void ClearScreen();
 
 protected:
 	// Called when the game starts
