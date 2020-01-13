@@ -1,34 +1,29 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-/*
+// Property of Levi Voris 2020
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "GameFramework\Actor.h"
+#include "Test_Terminal.generated.h"
 
-#include "Terminal.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTextUpdateSignature, FString, Text);
-
-struct FKey;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ESCAPE_ROOM_API UTerminal : public UActorComponent
+class ESCAPE_ROOM_API UTest_Terminal : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	UPROPERTY(BlueprintAssignable, Category = "Terminal")
-		FTextUpdatesSignature TextUpdate;
+	FTextUpdateSignature TextUpdate;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-		FString GetScreenText() const;
+	FString GetScreenText() const;
 
 	UFUNCTION(BlueprintCallable)
-		void ActiveTerminal();
+	void ActiveTerminal();
 
 	UFUNCTION(BlueprintCallable)
-		void DeactiveTerminal() const;
+	void DeactiveTerminal() const;
 
 	void PrintLine(const FString& Line);
 	void ClearScreen();
@@ -37,7 +32,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-private:	
+private:
 	// Called every frame
 	void OnKeyDown(FKey Key);
 	TArray<FString> WrapLines(const TArray<FStirng>& Lines const);
@@ -59,7 +54,4 @@ private:
 
 	int32 PressedBindingIndex;
 	int32 RepeatBeingingIndex;
-
-		
 };
-*/

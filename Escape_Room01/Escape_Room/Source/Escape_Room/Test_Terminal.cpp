@@ -1,7 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Property of Levi Voris 2020
 
-/*
-#include "Terminal.h"
+
+#include "Test_Terminal.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Framework/Application/SlateApplication.h"
@@ -10,20 +10,20 @@
 
 constexpr TCHAR GPromt[4] = TEXT("$> ");
 
-void UTerminal::BeginPlay()
+void UTest_Terminal::BeginPlay()
 {
 	Super::BeginPlay();
 	UpdateText();
-	
+
 }
 
-void UTerminal::ActiveTerminal()
+void UTest_Terminal::ActiveTerminal()
 {
 	FInputKeyBinding PressedBinding(EKeys::AnyKey, EInputEvent::IE_Pressed);
-	PressedBinding.KeyDelegate.BindDelegate(this, &UTerminal::OnKeyDown);
+	PressedBinding.KeyDelegate.BindDelegate(this, &UTest_Terminal::OnKeyDown);
 
 	FInputKeyBinding RepeatBinding(EKeys::AnyKey, EInputEvent::IE_Repeat);
-	RepeatBinding.KeyDelegate.BindDelegate(this, &UTerminal::OnKeyDown);
+	RepeatBinding.KeyDelegate.BindDelegate(this, &UTest_Terminal::OnKeyDown);
 
 	if (GetOwner()->InputComponent == nullptr) return;
 
@@ -31,7 +31,7 @@ void UTerminal::ActiveTerminal()
 	RepeatBeingingIndex = GetOwner()->InputComponent->KeyBindings.Emplace(MoveTemp(RepeatBinding));
 }
 
-void UTerminal::DeactiveTerminal() const
+void UTest_Terminal::DeactiveTerminal() const
 {
 	if (GetOwner()->InputComponent == nullptr) return;
 
@@ -39,7 +39,7 @@ void UTerminal::DeactiveTerminal() const
 	GetOwner()->InputComponent->KeyBindings.RemoveAt(PressedBindingIndex);
 }
 
-void UTerminal::PrintLine(const FString& Line)
+void UTest_Terminal::PrintLine(const FString& Line)
 {
 	FString Input = Line;
 	FString Left, Right;
@@ -52,13 +52,13 @@ void UTerminal::PrintLine(const FString& Line)
 	UpdateText();
 }
 
-void UTerminal::ClearScreen()
+void UTest_Terminal::ClearScreen()
 {
 	Buffer.Empty();
 	UpdateText();
 }
 
-FString UTerminal::GetScreenText() const
+FString UTest_Terminal::GetScreenText() const
 {
 	TArray<FString> FullTerminal = Buffer;
 	FullTerminal.Add(GPromt + InputLine);
@@ -70,22 +70,21 @@ FString UTerminal::GetScreenText() const
 	return JoinWithNewline(WrappedLines);
 }
 
-TArray<FString> UTerminal::WrapLines(const TArray<FString>& Lines) const
+TArray<FString> UTest_Terminal::WrapLines(const TArray<FString>& Lines) const
 {
 	TArray<FString> RappedLines;
-	for (auto &&Line : Line);
+	for (auto &&Line : Lines)
 	{
 		do
 		{
 			WrappedLines.Add(CurrentLine.Left(MaxColums));
 			CurrentLine = CurrentLine.RightChop(MaxColums);
-		} 
-		while (CurrentLine.Len() > 0);
+		} while (CurrentLine.Len() > 0);
 	}
 	return WrappedLines;
 }
 
-void UTerminal::Truncate(TArray<FString>& Lines) const
+void UTest_Terminal::Truncate(TArray<FString>& Lines) const
 {
 	while (Lines.Num() > MaxLines)
 	{
@@ -93,17 +92,17 @@ void UTerminal::Truncate(TArray<FString>& Lines) const
 	}
 }
 
-FString UTerminal::JoinWithNewline(const TArray<FString>& Lines) const
+FString UTest_Terminal::JoinWithNewline(const TArray<FString>& Lines) const
 {
 	FString Results;
-	for (auto &&Line : Line)
+	for (auto &&Line : Lines)
 	{
 		Results += +TEXT(" <br> ");
 	}
 	return Result;
 }
 
-void UTerminal::OnKeyDown(FKey Key)
+void UTest_Terminal::OnKeyDown(FKey Key)
 {
 	if (Key == EKeys::Enter)
 	{
@@ -130,7 +129,7 @@ void UTerminal::OnKeyDown(FKey Key)
 }
 
 
-void UTerminal::AcceptInputLine()
+void UTest_Terminal::AcceptInputLine()
 {
 	Buffer.Emplace(GPromt + InputLine);
 	auto Cartridge = GetOwner()->FindComponentByClass<UCartridge>();
@@ -142,7 +141,7 @@ void UTerminal::AcceptInputLine()
 
 }
 
-void UTerminal::BackSpace()
+void UTest_Terminal::BackSpace()
 {
 	if (InputLine.Len() > 0)
 	{
@@ -150,7 +149,7 @@ void UTerminal::BackSpace()
 	}
 }
 
-void UTerminal::GetKeyString(FKey Key) const
+void UTest_Terminal::GetKeyString(FKey Key) const
 {
 	const uint32* KeyCode = nullptr;
 	const uint32* CharCode = nullptr;
@@ -159,13 +158,12 @@ void UTerminal::GetKeyString(FKey Key) const
 	{
 		ANSICHAR Char[2] = { static_cast<ANSICHAR>(*CharCode), '\0';
 		return ANSI_TO_TCHAR(Char);
-	}
+		}
 
 		return TEXT("");
-}
+	}
 
-	void UTerminal::UpdateText()
+	void UTest_Terminal::UpdateText()
 	{
 		TextUpdated.Broadcast(GetScreenText();
 	}
-	*/

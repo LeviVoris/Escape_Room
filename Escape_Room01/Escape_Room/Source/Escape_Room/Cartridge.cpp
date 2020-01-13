@@ -1,14 +1,14 @@
 // fill out your copyright notice in the description page of project settings.
-
+/*
 
 #include "Cartridge.h"
-#include "Terminal.h"
+#include "Test_Terminal.h"
 #include "Gameframework/Actor.h"
 
 void UCartridge::BeginPlay()
 {
 	Super::BeginPlay();
-	Terminal = GetOwner()->FindComponentByClass<UTerminal>();
+	Terminal = GetOwner()->FindComponentByClass<UTest_Terminal>();
 	checkf(Terminal, TEXT"[%s]: No Terminal Found"), *GetName())
 }
 
@@ -26,3 +26,4 @@ void UCartridge::ClearScreen() const
 {
 	Terminal->ClearSceen();
 }
+*/
