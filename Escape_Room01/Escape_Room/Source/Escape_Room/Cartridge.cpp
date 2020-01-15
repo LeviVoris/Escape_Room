@@ -1,5 +1,5 @@
 // fill out your copyright notice in the description page of project settings.
-/*
+
 
 #include "Cartridge.h"
 #include "Test_Terminal.h"
@@ -9,7 +9,7 @@ void UCartridge::BeginPlay()
 {
 	Super::BeginPlay();
 	Terminal = GetOwner()->FindComponentByClass<UTest_Terminal>();
-	checkf(Terminal, TEXT"[%s]: No Terminal Found"), *GetName())
+	checkf(Terminal, TEXT("[%s]: No Terminal Found"), *GetName())
 }
 
 void UCartridge::PrintLine(const FString& Line) const
@@ -24,6 +24,5 @@ void UCartridge::PrintLine(const TCHAR* Line) const
 
 void UCartridge::ClearScreen() const
 {
-	Terminal->ClearSceen();
+	Terminal->ClearScreen();
 }
-*/

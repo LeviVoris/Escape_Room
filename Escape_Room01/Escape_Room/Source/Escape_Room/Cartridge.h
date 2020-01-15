@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-/*
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -24,11 +24,10 @@ protected:
 	template<SIZE_T N, typename ...Types>
 	void PrintLine(const TCHAR(&Fmt)[N], Types...Args) const
 	{
-	PrintLine(FString::Printf(Fmt, Args...));
+		PrintLine(FString::Printf(Fmt, Args...));
 	}
 	void ClearScreen() const;
 
 private:
-	class UTerminal* Terminal;
+	class UTest_Terminal* Terminal;
 };
-*/

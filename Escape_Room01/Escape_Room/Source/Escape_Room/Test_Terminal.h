@@ -4,8 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "GameFramework/Actor.h"
 #include "Test_Terminal.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTextUpdateSignature, FString, Text);
+
+struct FKey;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ESCAPE_ROOM_API UTest_Terminal : public UActorComponent
@@ -35,12 +40,12 @@ protected:
 private:
 	// Called every frame
 	void OnKeyDown(FKey Key);
-	TArray<FString> WrapLines(const TArray<FStirng>& Lines const);
-	void Truncate(TArray<FStirng>& Lines) const;
-	FStirng JoinWithNewline(const TArray<FString>& Lines) const;
+	TArray<FString> WrapLines(const TArray<FString>& Lines) const;
+	void Truncate(TArray<FString>& Lines) const;
+	FString JoinWithNewline(const TArray<FString>& Lines) const;
 	void AcceptInputLine();
 	void BackSpace();
-	FStirng GetKeyString(FKey Key) const;
+	FString GetKeyString(FKey Key) const;
 	void UpdateText();
 
 	UPROPERTY(EditAnywhere)
@@ -49,7 +54,7 @@ private:
 	UPROPERTY(EditAnywhere)
 		int32 MaxColums = 70;
 
-	TArray<FStirng> Buffer;
+	TArray<FString> Buffer;
 	FString InputLine;
 
 	int32 PressedBindingIndex;

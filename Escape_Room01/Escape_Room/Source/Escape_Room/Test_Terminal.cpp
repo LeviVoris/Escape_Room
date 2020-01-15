@@ -63,7 +63,7 @@ FString UTest_Terminal::GetScreenText() const
 	TArray<FString> FullTerminal = Buffer;
 	FullTerminal.Add(GPromt + InputLine);
 
-	//Wrap Lines
+	//WrapLines
 	TArray<FString> WrappedLines(WrapLines(FullTerminal));
 	Truncate(WrappedLines);
 
@@ -72,14 +72,16 @@ FString UTest_Terminal::GetScreenText() const
 
 TArray<FString> UTest_Terminal::WrapLines(const TArray<FString>& Lines) const
 {
-	TArray<FString> RappedLines;
+	TArray<FString> WrappedLines;
 	for (auto &&Line : Lines)
 	{
+		FString CurrentLine = Line;
 		do
 		{
 			WrappedLines.Add(CurrentLine.Left(MaxColums));
 			CurrentLine = CurrentLine.RightChop(MaxColums);
-		} while (CurrentLine.Len() > 0);
+		} 
+		while (CurrentLine.Len() > 0);
 	}
 	return WrappedLines;
 }
@@ -99,7 +101,7 @@ FString UTest_Terminal::JoinWithNewline(const TArray<FString>& Lines) const
 	{
 		Results += +TEXT(" <br> ");
 	}
-	return Result;
+	return Results;
 }
 
 void UTest_Terminal::OnKeyDown(FKey Key)
@@ -149,21 +151,21 @@ void UTest_Terminal::BackSpace()
 	}
 }
 
-void UTest_Terminal::GetKeyString(FKey Key) const
+FString UTest_Terminal::GetKeyString(FKey Key) const
 {
 	const uint32* KeyCode = nullptr;
 	const uint32* CharCode = nullptr;
 	FInputKeyManager::Get().GetCodesFromKey(Key, KeyCode, CharCode);
 	if (CharCode != nullptr)
 	{
-		ANSICHAR Char[2] = { static_cast<ANSICHAR>(*CharCode), '\0';
+		ANSICHAR Char[2] = { static_cast<ANSICHAR>(*CharCode), '\0' };
 		return ANSI_TO_TCHAR(Char);
-		}
-
-		return TEXT("");
 	}
 
-	void UTest_Terminal::UpdateText()
-	{
-		TextUpdated.Broadcast(GetScreenText();
-	}
+	return TEXT("");
+}
+
+void UTest_Terminal::UpdateText()
+{
+	TextUpdated.Broadcast(GetScreenText());
+}
