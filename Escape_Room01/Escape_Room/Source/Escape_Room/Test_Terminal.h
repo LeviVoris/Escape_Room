@@ -19,7 +19,7 @@ class ESCAPE_ROOM_API UTest_Terminal : public UActorComponent
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Terminal")
-	FTextUpdateSignature TextUpdate;
+	FTextUpdateSignature TextUpdated;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	FString GetScreenText() const;
