@@ -6,8 +6,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Framework/Application/SlateApplication.h"
 
-#include "Cartridge.h"
-
+//#include "Cartridge.h"
+/*
 constexpr TCHAR GPromt[4] = TEXT("$> ");
 
 void UTest_Terminal::BeginPlay()
@@ -169,3 +169,4 @@ void UTest_Terminal::UpdateText()
 {
 	TextUpdated.Broadcast(GetScreenText());
 }
+*/

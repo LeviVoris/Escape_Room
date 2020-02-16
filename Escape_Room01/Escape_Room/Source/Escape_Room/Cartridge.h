@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Cartridge.generated.h"
+//#include "Cartridge.generated.h"
 
-
+/*
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ESCAPE_ROOM_API UCartridge : public UActorComponent
 {
@@ -31,3 +31,4 @@ protected:
 private:
 	class UTest_Terminal* Terminal;
 };
+*/

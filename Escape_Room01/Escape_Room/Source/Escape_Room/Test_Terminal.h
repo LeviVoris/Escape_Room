@@ -5,9 +5,9 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "GameFramework/Actor.h"
-#include "Test_Terminal.generated.h"
+//#include "Test_Terminal.generated.h"
 
-
+/*
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTextUpdateSignature, FString, Text);
 
 struct FKey;
@@ -60,3 +60,4 @@ private:
 	int32 PressedBindingIndex;
 	int32 RepeatBeingingIndex;
 };
+*/

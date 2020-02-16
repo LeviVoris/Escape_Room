@@ -4,7 +4,7 @@
 #include "Cartridge.h"
 #include "Test_Terminal.h"
 #include "Gameframework/Actor.h"
-
+/*
 void UCartridge::BeginPlay()
 {
 	Super::BeginPlay();
@@ -26,3 +26,4 @@ void UCartridge::ClearScreen() const
 {
 	Terminal->ClearScreen();
 }
+*/
