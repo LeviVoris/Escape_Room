@@ -1,8 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "Engine/World.h"
+#include "GameFramework\PlayerController.h"
 #include "Open_Doors.h"
 #include "GameFramework/Actor.h"
+
 
 // Sets default values for this component's properties
 UOpen_Doors::UOpen_Doors()
@@ -24,7 +26,13 @@ void UOpen_Doors::BeginPlay()
 	CurrentYaw = InitialYaw;							//Currently where the actor is in real time
 	//TargetYaw = InitialYaw + -90.0f;					//Destination of Door - Hard Coded
 	TargetYaw += InitialYaw;							//TargetYaw = TargetYaw + InitialYaw;
+
+	if (!PressurePlate)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Has Open Door, but no Pressure plate: %s"), *GetOwner()->GetName());
+	}
 	
+	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 
@@ -33,9 +41,17 @@ void UOpen_Doors::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens))
+	{
+		OpenDoor(DeltaTime);
+	}
+}
+
+void UOpen_Doors::OpenDoor(float DeltaTime)
+{
 	CurrentYaw = FMath::Lerp(CurrentYaw, TargetYaw, 0.5f * DeltaTime);		//Setting Start and end point, then setting speed in which is goes - does nothing til told
 	FRotator DoorRotation = GetOwner()->GetActorRotation();					//Rotator to actually implament Rotation
 	DoorRotation.Yaw = CurrentYaw;											//Getting the Yaw of current actor (CurrentYaw)
 	GetOwner()->SetActorRotation(DoorRotation);								//Telling actor to use Door Rotation
-}
 
+}
