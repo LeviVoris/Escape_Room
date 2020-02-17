@@ -1,13 +1,13 @@
 // Property of Levi Voris 2020
 
-
+/*
 #include "Test_Terminal.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Framework/Application/SlateApplication.h"
 
-//#include "Cartridge.h"
-/*
+#include "Cartridge.h"
+
 constexpr TCHAR GPromt[4] = TEXT("$> ");
 
 void UTest_Terminal::BeginPlay()

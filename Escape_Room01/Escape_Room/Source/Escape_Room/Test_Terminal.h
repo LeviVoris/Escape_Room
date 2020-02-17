@@ -1,14 +1,14 @@
 // Property of Levi Voris 2020
-
+/*
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "GameFramework/Actor.h"
-//#include "Test_Terminal.generated.h"
+#include "Test_Terminal.generated.h"
 
-/*
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTextUpdateSignature, FString, Text);
+
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTextUpdateSignature, FString, Text);
 
 struct FKey;
 
@@ -19,7 +19,7 @@ class ESCAPE_ROOM_API UTest_Terminal : public UActorComponent
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Terminal")
-	FTextUpdateSignature TextUpdated;
+	//FTextUpdateSignature TextUpdated;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	FString GetScreenText() const;
