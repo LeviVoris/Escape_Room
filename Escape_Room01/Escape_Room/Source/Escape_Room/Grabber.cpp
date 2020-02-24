@@ -24,7 +24,16 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Grabber Attached"));
+	//Check for Physcis Handle Comp
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (PhysicsHandle)
+	{
+		//Physics Handle is Found
+	}
+	else 
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Physics Handle Component found on %s"), *GetOwner()->GetName());
+	}
 	
 }
 
@@ -43,12 +52,6 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		OUT PlayerViewPointRotation
 	);
 
-	//UE_LOG(LogTemp, Error, TEXT("Location is: %s, Rotation is: %s"), 
-	//	*PlayerViewPointLocation.ToString(), 
-	//	*PlayerViewPointRotation.ToString()
-	//);
-
-
 	//Draw a line from player showing the reach
 	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
 
@@ -63,7 +66,6 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		5.f
 	);
 
-	
 	//Ray-cast out to measure reach (private)
 	FHitResult Hit;
 	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
@@ -75,11 +77,11 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
 		TraceParams
 	);
+
 	 AActor* ActorHit = Hit.GetActor();
-	 
 	 if (ActorHit)
 	 {
-		 UE_LOG(LogTemp, Error, TEXT("Line Trace has Hit %s"), *(ActorHit->GetName()));
+		 UE_LOG(LogTemp, Warning, TEXT("Line Trace has Hit %s"), *(ActorHit->GetName()));
 	 }
 	
 	//See what the cast hits - can it be picked up?
