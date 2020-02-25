@@ -14,27 +14,34 @@ UGrabber::UGrabber()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
-
-// Called when the game starts
+	// Called when the game starts
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
+	FindPhysicsHandle();
+	SetUpInputComponent();
+	
+}
+
+void UGrabber::FindPhysicsHandle()
+{
 	//Check for Physcis Handle Comp
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (PhysicsHandle)
 	{
 		//Physics Handle is Found
 	}
-	else 
+	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("No Physics Handle Component found on %s"), *GetOwner()->GetName());
 	}
-	
+}
+
+void UGrabber::SetUpInputComponent()
+{
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	if (InputComponent)
 	{
@@ -46,6 +53,12 @@ void UGrabber::BeginPlay()
 void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grabber Pressed"));
+	GetFirstPhysicsBodyInReach();
+
+	//Try to reach any actor with Physics Body Set
+
+	//If we hit something, then attach physics Handle
+
 }
 
 void UGrabber::GrabReleased()
@@ -58,29 +71,35 @@ void UGrabber::GrabReleased()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	//See what the cast hits - can it be picked up?
+}
 
+FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
+{
 	// Get player View point
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
 
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
-		OUT PlayerViewPointLocation, 
+		OUT PlayerViewPointLocation,
 		OUT PlayerViewPointRotation
 	);
 
 	//Draw a line from player showing the reach
 	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
 
-	DrawDebugLine(	
-		GetWorld(),
-		PlayerViewPointLocation,
-		LineTraceEnd,
-		FColor(0, 0, 255),
-		false,
-		0.f,
-		0,
-		5.f
+	/*
+	DrawDebugLine(
+	GetWorld(),
+	PlayerViewPointLocation,
+	LineTraceEnd,
+	FColor(0, 0, 255),
+	false,
+	0.f,
+	0,
+	5.f
 	);
+	*/
 
 	//Ray-cast out to measure reach (private)
 	FHitResult Hit;
@@ -94,12 +113,11 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		TraceParams
 	);
 
-	 AActor* ActorHit = Hit.GetActor();
-	 if (ActorHit)
-	 {
-		 UE_LOG(LogTemp, Warning, TEXT("Line Trace has Hit %s"), *(ActorHit->GetName()));
-	 }
-	
-	//See what the cast hits - can it be picked up?
-}
+	AActor* ActorHit = Hit.GetActor();
+	if (ActorHit)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Line Trace has Hit %s"), *(ActorHit->GetName()));
+	}
 
+	return Hit;
+}
