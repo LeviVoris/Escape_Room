@@ -26,6 +26,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void OpenDoor(float DeltaTime);
 	void CloseDoor(float DeltaTime);
+	float TotalMassOfActors() const;
 
 private:
 
@@ -45,10 +46,14 @@ private:
 		float DoorClosedDelay = 1.f;
 
 	UPROPERTY(EditAnywhere)
+		float MassToOpenDoor = 20.f;
+
+	UPROPERTY(EditAnywhere)
 		ATriggerVolume* PressurePlate;
 
 	UPROPERTY(EditAnywhere)
 		AActor* ActorThatOpens;
+
 
 	float DoorLastOpened = 0.f;
 	

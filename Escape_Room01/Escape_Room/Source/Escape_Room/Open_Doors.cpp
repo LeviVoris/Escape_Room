@@ -1,9 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Open_Doors.h"
+#include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework\PlayerController.h"
+
+#define OUT
 
 
 // Sets default values for this component's properties
@@ -41,7 +44,7 @@ void UOpen_Doors::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens))
+	if (TotalMassOfActors() > MassToOpenDoor)
 	{
 		OpenDoor(DeltaTime);
 		DoorLastOpened = GetWorld()->GetTimeSeconds();
@@ -55,8 +58,6 @@ void UOpen_Doors::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 			CloseDoor(DeltaTime);
 		}
 	}
-
-
 }
 
 void UOpen_Doors::OpenDoor(float DeltaTime)
@@ -65,7 +66,6 @@ void UOpen_Doors::OpenDoor(float DeltaTime)
 	FRotator DoorRotation = GetOwner()->GetActorRotation();					//Rotator to actually implament Rotation
 	DoorRotation.Yaw = CurrentYaw;											//Getting the Yaw of current actor (CurrentYaw)
 	GetOwner()->SetActorRotation(DoorRotation);								//Telling actor to use Door Rotation
-
 }
 
 void UOpen_Doors::CloseDoor(float DeltaTime)
@@ -74,5 +74,18 @@ void UOpen_Doors::CloseDoor(float DeltaTime)
 	FRotator DoorRotation = GetOwner()->GetActorRotation();					//Rotator to actually implament Rotation
 	DoorRotation.Yaw = CurrentYaw;											//Getting the Yaw of current actor (CurrentYaw)
 	GetOwner()->SetActorRotation(DoorRotation);								//Telling actor to use Door Rotation
+}
 
+float UOpen_Doors::TotalMassOfActors() const
+{
+	float TotalMass = 0.f;
+	TArray<AActor*> OverlappingActors;
+	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
+
+	for (AActor* Actor : OverlappingActors)
+	{
+		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+	};
+
+	return TotalMass;
 }
