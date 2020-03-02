@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Open_Doors.h"
+#include "Components/AudioComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
@@ -15,10 +16,7 @@ UOpen_Doors::UOpen_Doors()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
-
 
 // Called when the game starts
 void UOpen_Doors::BeginPlay()
@@ -30,14 +28,9 @@ void UOpen_Doors::BeginPlay()
 	//OpenDoorAngle = InitialYaw + -90.0f;					//Destination of Door - Hard Coded
 	OpenDoorAngle += InitialYaw;							//OpenDoorAngle = OpenDoorAngle + InitialYaw;
 
-	if (!PressurePlate)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Has Open Door, but no Pressure plate: %s"), *GetOwner()->GetName());
-	}
-	
-	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
+	FindPressurePlate();
+	FindAudioComponent();
 }
-
 
 // Called every frame
 void UOpen_Doors::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -66,26 +59,59 @@ void UOpen_Doors::OpenDoor(float DeltaTime)
 	FRotator DoorRotation = GetOwner()->GetActorRotation();					//Rotator to actually implament Rotation
 	DoorRotation.Yaw = CurrentYaw;											//Getting the Yaw of current actor (CurrentYaw)
 	GetOwner()->SetActorRotation(DoorRotation);								//Telling actor to use Door Rotation
+
+	CloseDoorSound = false;
+	if (!AudioComponent) { return; }
+	if (!OpenDoorSound)
+	{
+		AudioComponent->Play();
+		OpenDoorSound = true;
+	}
 }
 
 void UOpen_Doors::CloseDoor(float DeltaTime)
 {
 	CurrentYaw = FMath::Lerp(CurrentYaw, InitialYaw, DoorCloseSpeed * DeltaTime);		//Setting Start and end point, then setting speed in which is goes - does nothing til told
-	FRotator DoorRotation = GetOwner()->GetActorRotation();					//Rotator to actually implament Rotation
-	DoorRotation.Yaw = CurrentYaw;											//Getting the Yaw of current actor (CurrentYaw)
-	GetOwner()->SetActorRotation(DoorRotation);								//Telling actor to use Door Rotation
+	FRotator DoorRotation = GetOwner()->GetActorRotation();								//Rotator to actually implament Rotation
+	DoorRotation.Yaw = CurrentYaw;														//Getting the Yaw of current actor (CurrentYaw)
+	GetOwner()->SetActorRotation(DoorRotation);											//Telling actor to use Door Rotation
+
+	OpenDoorSound = false;
+	if (!AudioComponent) { return; }
+	if (!CloseDoorSound)
+	{
+		AudioComponent->Play();
+		CloseDoorSound = true;
+	}
 }
 
 float UOpen_Doors::TotalMassOfActors() const
 {
 	float TotalMass = 0.f;
 	TArray<AActor*> OverlappingActors;
+	if (!PressurePlate) { return TotalMass; }
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 
 	for (AActor* Actor : OverlappingActors)
 	{
 		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
 	};
-
 	return TotalMass;
+}
+
+void UOpen_Doors::FindAudioComponent()
+{
+	AudioComponent = GetOwner()->FindComponentByClass<UAudioComponent>();
+	if (!AudioComponent)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s Missing Audio Component!"), *GetOwner()->GetName());
+	}
+}
+
+void UOpen_Doors::FindPressurePlate()
+{
+	if (!PressurePlate)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Has Open Door, but no Pressure plate: %s"), *GetOwner()->GetName());
+	}
 }
