@@ -16,5 +16,4 @@ Escape_Room.umap filter=lfs diff=lfs merge=lfs -text
 UPK filter=lfs diff=lfs merge=lfs -text
 Escape_Room01/Escape_Room/Content/StarterContent/Maps/Escape_Room_BuiltData.uasset filter=lfs diff=lfs merge=lfs -text
 =======
-C:\Users\luck_\Desktop\Escape_Room\Escape_Room01\Escape_Room\Content\StarterContent\Maps\Escape_Room.umap
 >>>>>>> 9566af6709fb7ba127942ecb39fbaf05736f382f
