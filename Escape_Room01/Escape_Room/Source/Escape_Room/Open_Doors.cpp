@@ -3,12 +3,12 @@
 #include "Open_Doors.h"
 #include "Components/AudioComponent.h"
 #include "Components/PrimitiveComponent.h"
+#include "Engine/TriggerBox.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework\PlayerController.h"
 
 #define OUT
-
 
 // Sets default values for this component's properties
 UOpen_Doors::UOpen_Doors()
@@ -30,6 +30,7 @@ void UOpen_Doors::BeginPlay()
 
 	FindPressurePlate();
 	FindAudioComponent();
+	FindOneTimeDoorTrigger();
 }
 
 // Called every frame
@@ -113,5 +114,21 @@ void UOpen_Doors::FindPressurePlate()
 	if (!PressurePlate)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Has Open Door, but no Pressure plate: %s"), *GetOwner()->GetName());
+	}
+}
+
+void UOpen_Doors::FindOneTimeDoorTrigger()
+{
+	if (!DoorTrigger)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Has Open Door, but no Box Trigger: %s"), *GetOwner()->GetName());
+	}
+}
+
+void UOpen_Doors::OneTimeShut(float DeltaTime)
+{
+	if (DoorTrigger)
+	{
+		//DoorTrigger(OnActorBeginOverlap)->OnActorBeginOverlap->TickComponent->CloseDoor;
 	}
 }

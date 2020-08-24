@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Engine/TriggerBox.h"
 #include "Engine/TriggerVolume.h"
 #include "Open_Doors.generated.h"
+
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -29,6 +31,8 @@ public:
 	void FindAudioComponent();
 	float TotalMassOfActors() const;
 	void FindPressurePlate();
+	void FindOneTimeDoorTrigger();
+	void OneTimeShut(float DeltaTime);
 
 	//Tracks wheather sound has been played or not
 	bool OpenDoorSound = false;
@@ -57,6 +61,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume* PressurePlate = nullptr;
+
+	UPROPERTY(EditAnywhere)
+		ATriggerBox* DoorTrigger = nullptr;
 
 	UPROPERTY()
 		UAudioComponent* AudioComponent = nullptr;
