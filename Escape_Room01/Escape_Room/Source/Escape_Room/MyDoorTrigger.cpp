@@ -24,7 +24,7 @@ void AMyDoorTrigger::OnOverlapBegin(class AActor* OverlappedActor, class AActor*
 	// check if Actors do not equal nullptr and that 
 	if (OtherActor && OtherActor != this)
 	{
-			UE_LOG(LogTemp, Error, TEXT("Enter"), *GetOwner()->GetName());
+			UE_LOG(LogTemp, Error, TEXT("Enter"));
 	}
 }
 
@@ -32,6 +32,6 @@ void AMyDoorTrigger::OnOverlapEnd(class AActor* OverlappedActor, class AActor* O
 {
 	if (OtherActor && OtherActor != this)
 	{
-			UE_LOG(LogTemp, Error, TEXT("Exit"), *GetOwner()->GetName());
+			UE_LOG(LogTemp, Error, TEXT("Exit"));
 	}
 }

@@ -10,6 +10,12 @@
 
 #define OUT
 
+/*UOpen_Doors::UOpen_Doors()
+{
+	OnActorBeginOverlap.AddDynamic(DoorTrigger, &UOpen_Doors::OnOverlapBegin);
+	OnActorEndOverlap.AddDynamic(DoorTrigger, &UOpen_Doors::OnOverlapEnd);
+}*/
+
 // Sets default values for this component's properties
 UOpen_Doors::UOpen_Doors()
 {
@@ -129,6 +135,6 @@ void UOpen_Doors::OneTimeShut(float DeltaTime)
 {
 	if (DoorTrigger)
 	{
-		//DoorTrigger(OnActorBeginOverlap)->OnActorBeginOverlap->TickComponent->CloseDoor;
+		UE_LOG(LogTemp, Error, TEXT("Enter"), *GetOwner()->GetName());
 	}
 }
